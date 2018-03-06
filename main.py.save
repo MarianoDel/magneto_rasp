@@ -1,0 +1,75 @@
+import wx
+#import serial
+import os
+from operator import or_
+import socket
+import threading
+#import string
+
+import sys
+
+#importar clases
+sys.path.append('/home/pi/Desktop/Magneto_simple_v1')
+#from fileManagement import fileManagement
+#from slider import MyPanel
+#from upFrame import UpFrame
+#from downFrame import DownFrame
+#from keyboardPanel import *
+#from serialCom import *
+
+# tested on wxPython 2.8.11.0, Python 2.7.1+, Ubuntu 11.04
+# http://stackoverflow.com/questions/2053268/side-effects-of-handling-evt-paint-event-in-wxpython
+# http://stackoverflow.com/questions/25756896/drawing-to-panel-inside-of-frame-in-wxpython
+# http://www.infinity77.net/pycon/tutorial/pyar/wxpython.html
+# also, see: wx-2.8-gtk2-unicode/wx/lib/agw/buttonpanel.py
+
+
+def GetUpButtonBitmap(width, height):
+    return wx.BitmapFromImage(GetUpButtonImage(width,height))
+
+def GetUpButtonImage(width, height):
+    image = wx.Image("", wx.BITMAP_TYPE_ANY)
+    #return image.Scale(width, height, wx.IMAGE_QUALITY_HIGH)
+    return image
+
+
+class MyFrame(wx.Frame):
+  def __init__(self, parent):
+    wx.Frame.__init__(self, parent, -1, "Custom dmx demo")
+    self.SetSize((1024, 768))
+
+    self.Layout()
+
+    self.SetBackgroundColour(wx.Colour(102,153, 255))
+    
+    #FullScreen
+    #FullScreenTestPanel(self)
+    top = self.GetTopLevelParent()
+    top.OnFullScreen(1)
+
+    self.Bind(wx.EVT_PAINT, self.OnPaint)
+
+  def OnClick(self, event):
+    print "Hola button"
+
+  def OnPaint(self, event):
+    #~ dc = wx.BufferedPaintDC(self) # works, somewhat
+     # "Set a red brush to draw a rectangle"    
+     self.Draw()
+    # pass
+  
+  def Draw(self):
+    dc = wx.PaintDC(self) # works
+    print(dc)
+    bitmap = GetUpButtonBitmap(60,60)
+    dc.DrawBitmap(bitmap, 0, 0, True)
+
+  def OnFullScreen(self,event):
+    self.ShowFullScreen(not self.IsFullScreen(),0)
+    
+app = wx.App(0)
+frame = MyFrame(None)
+app.SetTopWindow(frame)
+frame.Show()
+app.MainLoop()
+ 
