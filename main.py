@@ -511,6 +511,11 @@ class MyFrame(wx.Frame):
         self.text2.SetPosition((120,100))
 
     self.text1.SetLabel("%d" %  self.Ind1Panel.getValue())
+    #cambio color a rojo
+    if (self.Ind2Panel.getValue() >= 70):
+      self.text2.SetForegroundColour((255,0,0))
+    else:
+      self.text2.SetForegroundColour((0,0,0))
     self.text2.SetLabel("%d" %  self.Ind2Panel.getValue())
 
     #Start button
